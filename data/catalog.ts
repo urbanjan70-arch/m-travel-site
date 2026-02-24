@@ -1,9 +1,7 @@
 // data/catalog.ts
 
 export type CityId = "prague" | "vienna" | "salzburg" | "hallstatt" | "budapest" | "munich";
-
 export type LanguageId = "zh-Hant" | "zh-Hans" | "en" | "ko";
-
 export type ProductType = "tour" | "addon" | "transfer" | "meal";
 
 export type ProductId =
@@ -24,49 +22,77 @@ export interface Product {
   pricing: {
     currency: "EUR";
     kind: "flat" | "per_pax" | "tiered";
-    amount?: number; // for flat/per_pax
-    tiers?: Array<{ maxPax: number; amount: number }>; // for tiered
+    amount?: number; // flat/per_pax
+    tiers?: Array<{ maxPax: number; amount: number }>; // tiered
   };
   constraints?: {
     maxPax?: number;
-    requires?: ProductId[]; // dependencies
+    requires?: ProductId[]; // dependencies (simple)
   };
   tags?: string[];
 }
 
-export const cities: Array<{ id: CityId; name: Record<LanguageId, string>; status: "available" | "coming_soon" }> =
-  [
-    {
-      id: "prague",
-      status: "available",
-      name: { "zh-Hant": "布拉格", "zh-Hans": "布拉格", en: "Prague", ko: "프라하" },
+export const cities: Array<{
+  id: CityId;
+  name: Record<LanguageId, string>;
+  status: "available" | "coming_soon";
+}> = [
+  {
+    id: "prague",
+    status: "available",
+    name: { "zh-Hant": "布拉格", "zh-Hans": "布拉格", en: "Prague", ko: "프라하" },
+  },
+  {
+    id: "vienna",
+    status: "coming_soon",
+    name: {
+      "zh-Hant": "維也納（即將推出）",
+      "zh-Hans": "维也纳（即将推出）",
+      en: "Vienna (coming soon)",
+      ko: "비엔나(출시 예정)",
     },
-    {
-      id: "vienna",
-      status: "coming_soon",
-      name: { "zh-Hant": "維也納（即將推出）", "zh-Hans": "维也纳（即将推出）", en: "Vienna (coming soon)", ko: "비엔나(출시 예정)" },
+  },
+  {
+    id: "salzburg",
+    status: "coming_soon",
+    name: {
+      "zh-Hant": "薩爾茨堡（即將推出）",
+      "zh-Hans": "萨尔茨堡（即将推出）",
+      en: "Salzburg (coming soon)",
+      ko: "잘츠부르크(출시 예정)",
     },
-    {
-      id: "salzburg",
-      status: "coming_soon",
-      name: { "zh-Hant": "薩爾茨堡（即將推出）", "zh-Hans": "萨尔茨堡（即将推出）", en: "Salzburg (coming soon)", ko: "잘츠부르크(출시 예정)" },
+  },
+  {
+    id: "hallstatt",
+    status: "coming_soon",
+    name: {
+      "zh-Hant": "哈修塔特（即將推出）",
+      "zh-Hans": "哈尔施塔特（即将推出）",
+      en: "Hallstatt (coming soon)",
+      ko: "할슈타트(출시 예정)",
     },
-    {
-      id: "hallstatt",
-      status: "coming_soon",
-      name: { "zh-Hant": "哈修塔特（即將推出）", "zh-Hans": "哈尔施塔特（即将推出）", en: "Hallstatt (coming soon)", ko: "할슈타트(출시 예정)" },
+  },
+  {
+    id: "budapest",
+    status: "coming_soon",
+    name: {
+      "zh-Hant": "布達佩斯（即將推出）",
+      "zh-Hans": "布达佩斯（即将推出）",
+      en: "Budapest (coming soon)",
+      ko: "부다페스트(출시 예정)",
     },
-    {
-      id: "budapest",
-      status: "coming_soon",
-      name: { "zh-Hant": "布達佩斯（即將推出）", "zh-Hans": "布达佩斯（即将推出）", en: "Budapest (coming soon)", ko: "부다페스트(출시 예정)" },
+  },
+  {
+    id: "munich",
+    status: "coming_soon",
+    name: {
+      "zh-Hant": "慕尼黑（即將推出）",
+      "zh-Hans": "慕尼黑（即将推出）",
+      en: "Munich (coming soon)",
+      ko: "뮌헨(출시 예정)",
     },
-    {
-      id: "munich",
-      status: "coming_soon",
-      name: { "zh-Hant": "慕尼黑（即將推出）", "zh-Hans": "慕尼黑（即将推出）", en: "Munich (coming soon)", ko: "뮌헨(출시 예정)" },
-    },
-  ];
+  },
+];
 
 export const products: Product[] = [
   {
@@ -82,7 +108,7 @@ export const products: Product[] = [
     },
     pricing: { currency: "EUR", kind: "flat", amount: 125 },
     constraints: { maxPax: 4 },
-    tags: ["classic", "first_time"],
+    tags: ["classic"],
   },
   {
     id: "prague_tour_fullday_8h",
@@ -97,7 +123,7 @@ export const products: Product[] = [
     },
     pricing: { currency: "EUR", kind: "flat", amount: 250 },
     constraints: { maxPax: 4 },
-    tags: ["full_day", "relaxed"],
+    tags: ["full_day"],
   },
   {
     id: "prague_addon_jewish_2h",
@@ -112,7 +138,7 @@ export const products: Product[] = [
     },
     pricing: { currency: "EUR", kind: "flat", amount: 60 },
     constraints: { maxPax: 4, requires: ["prague_tour_halfday_4h", "prague_tour_fullday_8h"] },
-    tags: ["history", "culture"],
+    tags: ["history"],
   },
   {
     id: "meal_restaurant_3course",
@@ -126,7 +152,7 @@ export const products: Product[] = [
     },
     pricing: { currency: "EUR", kind: "per_pax", amount: 25 },
     constraints: { maxPax: 4 },
-    tags: ["food", "romantic"],
+    tags: ["food"],
   },
   {
     id: "transfer_private",
@@ -147,6 +173,6 @@ export const products: Product[] = [
       ],
     },
     constraints: { maxPax: 4 },
-    tags: ["comfort", "logistics"],
+    tags: ["comfort"],
   },
 ];
